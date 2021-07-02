@@ -17,6 +17,7 @@ ext {
   junit5PlatformLauncherVersion = "1.$junit5MinorVersion.1"
 }
 
+
 // add src/test/java as a resource directory so config files are found
 sourceSets.test {
   resources.srcDir "src/test/java"
