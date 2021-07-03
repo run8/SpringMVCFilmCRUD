@@ -47,8 +47,6 @@ public class FilmController {
 		ModelAndView mv = new ModelAndView();
 		Film filmWithDetails = dao.findFilmById(filmId);
 		String language = dao.findLanguageNameByLanguageId(filmWithDetails.getLanguageId());
-	
-		
 		mv.addObject("language", language);
 		mv.addObject("film", filmWithDetails);
 		mv.setViewName("WEB-INF/detailedResults.jsp");

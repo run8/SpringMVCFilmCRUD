@@ -85,7 +85,7 @@
 								<td>
 									<form method=GET action="showDetail.do">
 										<div class="input-group">
-											<input type="submit" class="form-control" id="showDetails"
+											<input type="submit" class="form-control" id="showDetail"
 												name="filmId" value="${film.id }">
 										</div>
 									</form>
