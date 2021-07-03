@@ -34,9 +34,9 @@ public class FilmController {
 	}
 	
 	@RequestMapping(path = "searchByKeywordInput.do", params = "keyword", method = RequestMethod.GET)
-	public ModelAndView searchByKeyword(String keyWord) {
+	public ModelAndView searchByKeyword(String keyword) {
 		ModelAndView mv = new ModelAndView();
-		List<Film> filmsByKeword = dao.findFilmsByKeywordInTitleOrDesc(keyWord);
+		List<Film> filmsByKeword = dao.findFilmsByKeywordInTitleOrDesc(keyword);
 		mv.addObject("films", filmsByKeword);
 		mv.setViewName("WEB-INF/result.jsp");
 		return mv;
