@@ -24,27 +24,63 @@
 	<div class="container-fluid">
 
 		<h1>Film Query</h1>
-		<div class="col-sm-4">
-			<div class="form">
-				<form method=POST action="id.do">
-					<div class="input-group input-group-sm mb-3">
-						<div class="input-group-text" id="film_id_search">Search by
-							Film ID #</div>
-						<input type="text" class="form-control" id="film_id" value="">
-						<button type="submit" class="btn btn-primary">Search</button>
-					</div>
-				</form>
 
-				<form method=POST action="keyword.do">
-					<div class="input-group input-group-sm mb-3">
-						<div class="input-group-text" id="keyword_search">Search by
-							Keyword</div>
-						<input type="text" class="form-control">
-						<button type="submit" class="btn btn-primary">Search</button>
-					</div>
-				</form>
+
+
+		<div class="outline">
+			<div class="row">
+				<div class="col-sm-8">
+					<form method=POST action="id.do">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-text">Search by Film ID #</div>
+							<input type="text" class="form-control" id="filmId" value="">
+							<button type="submit" class="btn btn-primary">Search</button>
+						</div>
+					</form>
+				</div>
+				<div class="col-sm-4">
+					<form method=POST action="add.do">
+						<button type="submit" class="btn btn-primary addNewButton">Add New
+							Film</button>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-8">
+					<form method=POST action="keyword.do">
+						<div class="input-group input-group-sm mb-3">
+							<div class="input-group-text">Search by Keyword</div>
+							<input type="text" class="form-control" id="keyword" value="">
+							<button type="submit" class="btn btn-primary">Search</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
+	</div>
+
+	<table class="table table-hover table-responsive">
+		<thead>
+			<tr>
+				<th>Film ID#</th>
+				<th colspan="2">Title</th>
+				<th>Release Year</th>
+				<th>Rating</th>
+				<th colspan="4">Description</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td colspan="2"></td>
+				<td></td>
+				<td></td>
+				<td colspan="4"></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+
 
 
 	</div>
