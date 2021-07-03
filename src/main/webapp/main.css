@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+body {
+	background-color: white;
+}
+
+.form {
+	background-color: white;
+	padding: 15px;
+	border: 2px;
+	border-style: solid;
+	border-color: black;
+	border-radius: 10px;
+}

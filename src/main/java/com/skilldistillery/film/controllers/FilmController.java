@@ -8,8 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FilmController {
 
 	@RequestMapping(path= {"/", "home.do"})
-	
 	public String index() {
+		return "WEB-INF/home.jsp";
+	}
+	
+	@RequestMapping(path = "id.do")
+	public String searchById() {
+		return "WEB-INF/home.jsp";
+	}
+	
+	@RequestMapping(path = "keyword.do")
+	public String searchByKeyword() {
 		return "WEB-INF/home.jsp";
 	}
 	
