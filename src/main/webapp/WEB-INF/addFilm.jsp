@@ -41,7 +41,7 @@
 					</form>
 				</div>
 				<div class="col-sm-4">
-					<form action="add.do" method=GET>
+					<form action="add.do">
 						<button type="submit" class="btn btn-primary addNewButton">Add
 							New Film</button>
 					</form>
@@ -52,13 +52,20 @@
 					<form method=GET action="searchByKeywordInput.do">
 						<div class="input-group input-group-sm mb-3">
 							<div class="input-group-text">Search by Keyword</div>
-							<input type="text" class="form-control" id="keyword" name="keyword" value="">
+							<input type="text" class="form-control" id="keyword"
+								name="keyword" value="">
 							<button type="submit" class="btn btn-primary">Search</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
+
+
+
+<p>Put form here</p>
+
+
 
 
 

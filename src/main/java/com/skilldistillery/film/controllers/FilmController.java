@@ -53,4 +53,13 @@ public class FilmController {
 		return mv;
 	}
 	
+	@RequestMapping(path = "add.do")
+	public String addNewFilmRedirect() {
+		return "WEB-INF/addFilm.jsp";
+	}
+	
+	
+//	@RequestMapping(path = "somePath.do", params = "", method = RequestMethod.POST)
+//	
+//	
 }

@@ -41,7 +41,7 @@
 					</form>
 				</div>
 				<div class="col-sm-4">
-					<form action="add.do">
+					<form action="add.do" method=GET>
 						<button type="submit" class="btn btn-primary addNewButton">Add
 							New Film</button>
 					</form>
