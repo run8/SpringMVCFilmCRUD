@@ -52,7 +52,8 @@
 					<form method=GET action="searchByKeywordInput.do">
 						<div class="input-group input-group-sm mb-3">
 							<div class="input-group-text">Search by Keyword</div>
-							<input type="text" class="form-control" id="keyword" name="keyword" value="">
+							<input type="text" class="form-control" id="keyword"
+								name="keyword" value="">
 							<button type="submit" class="btn btn-primary">Search</button>
 						</div>
 					</form>
@@ -81,7 +82,14 @@
 					<c:when test="${not empty films }">
 						<c:forEach var="film" items="${films }">
 							<tr>
-								<td>${film.id }</td>
+								<td>
+									<form method=GET action="showDetail.do">
+										<div class="input-group">
+											<input type="submit" class="form-control" id="showDetails"
+												name="filmId" value="${film.id }">
+										</div>
+									</form>
+								</td>
 								<td colspan="2">${film.title }</td>
 								<td>${film.releaseYear }</td>
 								<td>${film.rating }</td>
