@@ -42,19 +42,15 @@ public class FilmController {
 		return mv;
 	}
 	
-	@RequestMapping(path = "showDetails.do", params = "filmId", method = RequestMethod.GET)
-	public Film showDetails(int filmId) {
+	@RequestMapping(path = "showDetail.do", params = "filmId", method = RequestMethod.GET)
+	public ModelAndView showDetails(int filmId) {
 		ModelAndView mv = new ModelAndView();
 		Film filmWithDetails = dao.findFilmById(filmId);
 		String language = dao.findLanguageNameByLanguageId(filmWithDetails.getLanguageId());
-		filmWithDetails.setAllActorsInFilm(dao.findActorsByFilmId(filmId));
-		filmWithDetails.setAllCategories(dao.findCategoriesByFilmId(filmId));
-	
-		
 		mv.addObject("language", language);
 		mv.addObject("film", filmWithDetails);
-		mv.setViewName("WEB-INF/detailedResult.jsp");
-		return filmWithDetails;
+		mv.setViewName("WEB-INF/detailedResults.jsp");
+		return mv;
 	}
 	
 }

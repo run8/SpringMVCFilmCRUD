@@ -63,7 +63,7 @@
 		</div>
 
 
-		<table class="table table-hover table-responsive">
+		<table class="table">
 			<thead>
 				<tr>
 					<th>Detailed Results</th>
@@ -85,7 +85,7 @@
 				</tr>
 				<tr>
 					<td>Release Year</td>
-					<td>${film.realeaseYear }</td>
+					<td>${film.releaseYear }</td>
 				</tr>
 				<tr>
 					<td>Language</td>
