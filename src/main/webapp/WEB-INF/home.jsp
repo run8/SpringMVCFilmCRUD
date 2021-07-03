@@ -30,16 +30,16 @@
 		<div class="outline">
 			<div class="row">
 				<div class="col-sm-8">
-					<form method=POST action="id.do">
+					<form method=GET action="searchByIdInput.do">
 						<div class="input-group input-group-sm mb-3">
 							<div class="input-group-text">Search by Film ID #</div>
-							<input type="text" class="form-control" id="filmId" value="">
+							<input type="text" class="form-control" id="filmId" name="filmId" required>
 							<button type="submit" class="btn btn-primary">Search</button>
 						</div>
 					</form>
 				</div>
 				<div class="col-sm-4">
-					<form method=POST action="add.do">
+					<form action="add.do">
 						<button type="submit" class="btn btn-primary addNewButton">Add New
 							Film</button>
 					</form>
@@ -47,7 +47,7 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-8">
-					<form method=POST action="keyword.do">
+					<form method=GET action="searchByKeywordInput.do">
 						<div class="input-group input-group-sm mb-3">
 							<div class="input-group-text">Search by Keyword</div>
 							<input type="text" class="form-control" id="keyword" value="">
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+
 
 	<table class="table table-hover table-responsive">
 		<thead>
@@ -71,15 +71,15 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td></td>
-				<td colspan="2"></td>
-				<td></td>
-				<td></td>
-				<td colspan="4"></td>
+				<td>${film.id }</td>
+				<td colspan="2">${film.title }</td>
+				<td>${film.releaseYear }</td>
+				<td>${film.rating }</td>
+				<td colspan="4">${film.description }</td>
 			</tr>
 		</tbody>
 	</table>
-	</div>
+
 
 
 
