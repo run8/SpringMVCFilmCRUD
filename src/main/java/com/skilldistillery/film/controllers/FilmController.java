@@ -46,10 +46,7 @@ public class FilmController {
 	public ModelAndView showDetails(int filmId) {
 		ModelAndView mv = new ModelAndView();
 		Film filmWithDetails = dao.findFilmById(filmId);
-		System.out.println("in showDetails");
 		String language = dao.findLanguageNameByLanguageId(filmWithDetails.getLanguageId());
-		filmWithDetails.setAllActorsInFilm(dao.findActorsByFilmId(filmId));
-		filmWithDetails.setAllCategories(dao.findCategoriesByFilmId(filmId));
 	
 		
 		mv.addObject("language", language);
