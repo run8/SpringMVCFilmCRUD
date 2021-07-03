@@ -79,7 +79,7 @@
 						</tr>
 					</c:when>
 					<c:when test="${not empty films }">
-						<c:forEach var="film" items=${films }>
+						<c:forEach var="film" items="${films }">
 							<tr>
 								<td>${film.id }</td>
 								<td colspan="2">${film.title }</td>
