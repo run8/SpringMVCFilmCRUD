@@ -5,8 +5,8 @@ import java.util.List;
 public class Actor {
 
 	private int id;
-	private String first_name;
-	private String last_name;
+	private String firstName;
+	private String lastName;
 	List<Film> films;
 
 	public int getId() {
@@ -25,27 +25,27 @@ public class Actor {
 		this.films = films;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirstName(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
-		return last_name;
+		return lastName;
 	}
 
-	public void setLastName(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public Actor(int id, String first_name, String last_name) {
+	public Actor(int id, String firstName, String lastName) {
 		super();
 		this.id = id;
-		this.first_name = first_name;
-		this.last_name = last_name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	public Actor() {
@@ -55,9 +55,9 @@ public class Actor {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((first_name == null) ? 0 : first_name.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((last_name == null) ? 0 : last_name.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		return result;
 	}
 
@@ -70,24 +70,24 @@ public class Actor {
 		if (getClass() != obj.getClass())
 			return false;
 		Actor other = (Actor) obj;
-		if (first_name == null) {
-			if (other.first_name != null)
+		if (firstName == null) {
+			if (other.firstName != null)
 				return false;
-		} else if (!first_name.equals(other.first_name))
+		} else if (!firstName.equals(other.firstName))
 			return false;
 		if (id != other.id)
 			return false;
-		if (last_name == null) {
-			if (other.last_name != null)
+		if (lastName == null) {
+			if (other.lastName != null)
 				return false;
-		} else if (!last_name.equals(other.last_name))
+		} else if (!lastName.equals(other.lastName))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Actor [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + "]";
+		return "Actor [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
 
 }
