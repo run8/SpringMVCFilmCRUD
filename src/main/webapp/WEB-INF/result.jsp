@@ -61,6 +61,39 @@
 		</div>
 
 
+		<table class="table table-hover table-responsive">
+			<thead>
+				<tr>
+					<th>Film ID#</th>
+					<th colspan="2">Title</th>
+					<th>Release Year</th>
+					<th>Rating</th>
+					<th colspan="4">Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty films }">
+						<tr>
+							<td colspan="9">No Results Found</td>
+						</tr>
+					</c:when>
+					<c:when test="${not empty films }">
+						<c:forEach var="film" items=${films }>
+							<tr>
+								<td>${film.id }</td>
+								<td colspan="2">${film.title }</td>
+								<td>${film.releaseYear }</td>
+								<td>${film.rating }</td>
+								<td colspan="4">${film.description }</td>
+							</tr>
+						</c:forEach>
+					</c:when>
+				</c:choose>
+			</tbody>
+		</table>
+
+
 
 
 	</div>
