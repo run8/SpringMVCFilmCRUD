@@ -13,8 +13,6 @@ body {
 	border-radius: 10px;
 }
 
-
-
 th {
 	text-align: Left;
 }
@@ -23,7 +21,43 @@ th {
 	background-color: green;
 	border: 0px;
 }
+
 .addNewButton:hover {
 	background-color: darkgreen;
+	border: 0px;
+}
+
+.deleteButton {
+	background-color: red;
+	border: 0px;
+}
+
+.deleteButton:hover {
+	background-color: darkred;
+	border: 0px;
+}
+
+.deleteButton:focus {
+	background-color: red;
 	border:0px;
+}
+
+.modifyButton {
+	background-color: gold;
+	border: 0px;
+	color: black;
+}
+
+.modifyButton:hover {
+	background-color: darkgoldenrod;
+	border: 0px;
+	color:black;
+}
+
+.failedMessage {
+	color: red;
+}
+
+.successMessage {
+	color: green;
 }

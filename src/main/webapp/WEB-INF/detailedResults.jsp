@@ -67,6 +67,20 @@
 			<thead>
 				<tr>
 					<th>Detailed Results</th>
+					<th>
+						<div class="btn-group" role="group" aria-label="Basic example">
+							<button type="button" class="btn btn-primary deleteButton"
+								data-bs-toggle="modal" data-bs-target="#exampleModal">
+								Delete Film</button>
+
+							<form action="modifyFilm.do" method=POST>
+								<input type="hidden" name="filmId" value="${film.id }">
+								<button type="submit" class="btn btn-primary modifyButton">Edit
+									Film</button>
+							</form>
+						</div>
+					</th>
+
 				</tr>
 			</thead>
 			<tbody>
@@ -133,7 +147,30 @@
 		</table>
 
 
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Confirm Delete
+							Film?</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
 
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<form action="removeFilm.do" method=POST>
+							<input type="hidden" name="filmId" value="${film.id }">
+							<button type="submit" class="btn btn-primary deleteButton">Delete
+								Film</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
 	</div>
 
