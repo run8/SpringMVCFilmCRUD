@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,45 +62,13 @@
 			</div>
 		</div>
 
-
-		<table class="table table-hover table-responsive">
-			<thead>
-				<tr>
-					<th>Film ID#</th>
-					<th colspan="2">Title</th>
-					<th>Release Year</th>
-					<th>Rating</th>
-					<th colspan="4">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:choose>
-					<c:when test="${empty films || films[0] == null}">
-						<tr>
-							<td colspan="9">No Results Found</td>
-						</tr>
-					</c:when>
-					<c:when test="${not empty films }">
-						<c:forEach var="film" items="${films }">
-							<tr>
-								<td>
-									<form method=GET action="showDetail.do">
-										<div class="input-group">
-											<input type="submit" class="form-control btn-sm" id="showDetail"
-												name="filmId" value="${film.id }">
-										</div>
-									</form>
-								</td>
-								<td colspan="2">${film.title }</td>
-								<td>${film.releaseYear }</td>
-								<td>${film.rating }</td>
-								<td colspan="4">${film.description }</td>
-							</tr>
-						</c:forEach>
-					</c:when>
-				</c:choose>
-			</tbody>
-		</table>
+		<br>
+		<c:if test="${fn:startsWith(deleteResult, 'Unable')}">
+		<div class="failedMessage"><h5>${deleteResult}</h5></div>
+		</c:if>
+		<c:if test="${fn:startsWith(deleteResult, 'Successfully') }">
+		<div class="successMessage"><h5>${deleteResult}</h5></div>
+		</c:if>
 
 
 

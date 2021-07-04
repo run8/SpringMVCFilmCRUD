@@ -58,6 +58,20 @@ public class FilmController {
 		return "WEB-INF/addFilm.jsp";
 	}
 	
+	@RequestMapping(path = "removeFilm.do", params = "filmId", method = RequestMethod.POST)
+	public ModelAndView removeFilm(int filmId) {
+		Film filmToDelete = dao.findFilmById(filmId);
+		Boolean deleteResult = dao.deleteFilm(filmToDelete);
+		String result = "Unable to delete film with ID #: " + filmId;
+		if (deleteResult == true) {
+			result = "Successfully deleted film with ID #: " + filmId;
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("deleteResult", result);
+		mv.setViewName("WEB-INF/deleteResult.jsp");
+		return mv;
+	}
+	
 	
 //	@RequestMapping(path = "somePath.do", params = "", method = RequestMethod.POST)
 //	
