@@ -18,11 +18,11 @@ public class FilmController {
 	@Autowired
 	private DatabaseAccessor dao;
 
-	@RequestMapping(path= {"/", "home.do"})
+	@RequestMapping(path = { "/", "home.do" })
 	public String index() {
 		return "WEB-INF/home.jsp";
 	}
-	
+
 	@RequestMapping(path = "searchByIdInput.do", params = "filmId", method = RequestMethod.GET)
 	public ModelAndView searchById(int filmId) {
 		List<Film> filmList = new ArrayList<>();
@@ -32,7 +32,7 @@ public class FilmController {
 		mv.setViewName("WEB-INF/result.jsp");
 		return mv;
 	}
-	
+
 	@RequestMapping(path = "searchByKeywordInput.do", params = "keyword", method = RequestMethod.GET)
 	public ModelAndView searchByKeyword(String keyword) {
 		ModelAndView mv = new ModelAndView();
@@ -41,7 +41,7 @@ public class FilmController {
 		mv.setViewName("WEB-INF/result.jsp");
 		return mv;
 	}
-	
+
 	@RequestMapping(path = "showDetail.do", params = "filmId", method = RequestMethod.GET)
 	public ModelAndView showDetails(int filmId) {
 		ModelAndView mv = new ModelAndView();
@@ -52,14 +52,32 @@ public class FilmController {
 		mv.setViewName("WEB-INF/detailedResults.jsp");
 		return mv;
 	}
-	
+
 	@RequestMapping(path = "add.do")
 	public String addNewFilmRedirect() {
 		return "WEB-INF/addFilm.jsp";
 	}
-	
-	
-//	@RequestMapping(path = "somePath.do", params = "", method = RequestMethod.POST)
-//	
-//	
+
+	@RequestMapping(path = "addFilm.do", params = {"title", "description", "releaseYear", "rentalRate", "languageID", "rentalDuration", "filmLength", "replacementCost", "rating", "specialFeature"}, method = RequestMethod.POST)
+	public ModelAndView addFilm(String title, String description,  int releaseYear, int languageID, 
+			int rentalDuration, double rentalRate, int filmLength, double replacementCost, String rating,  
+			String specialFeature ) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/addFilm.jsp");
+		Film film = new Film();
+		film.setTitle(title);
+		film.setDescription(description);
+		film.setReleaseYear(releaseYear);
+		film.setLanguageId(languageID);
+		film.setRentalDuration(rentalDuration);
+		film.setLength(filmLength);
+		film.setRentalRate(rentalRate);
+		film.setReplacementCost(replacementCost);
+		film.setRating(rating);
+		film.setSpecialFeatures(specialFeature);
+		dao.createFilm(film);
+		
+		return mv;
+	}
+
 }

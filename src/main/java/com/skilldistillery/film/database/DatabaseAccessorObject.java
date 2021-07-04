@@ -226,8 +226,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		    conn.setAutoCommit(false); // START TRANSACTION
 		    String sql = "INSERT INTO film (title, description, release_year, "
 		    		+ "language_id, rental_duration, rental_rate, length, "
-		    		+ "replacement_cost, rating) "
-		            + " VALUES (?,?,?,?,?,?,?,?,?)";
+		    		+ "replacement_cost, rating, special_features) "
+		            + " VALUES (?,?,?,?,?,?,?,?,?,?)";
 		    PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		    stmt.setString(1, filmToAdd.getTitle());
 		    stmt.setString(2, filmToAdd.getDescription());
@@ -238,6 +238,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		    stmt.setInt(7, filmToAdd.getLength());
 		    stmt.setDouble(8, filmToAdd.getReplacementCost());
 		    stmt.setString(9, filmToAdd.getRating());
+		    stmt.setString(10,filmToAdd.getSpecialFeatures());
 		    
 		    int updateCount = stmt.executeUpdate();
 		    if (updateCount == 1) {
