@@ -63,7 +63,6 @@ public class FilmController {
 			int rentalDuration, double rentalRate, int filmLength, double replacementCost, String rating,  
 			String specialFeature ) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("WEB-INF/addFilm.jsp");
 		Film film = new Film();
 		film.setTitle(title);
 		film.setDescription(description);
@@ -75,7 +74,13 @@ public class FilmController {
 		film.setReplacementCost(replacementCost);
 		film.setRating(rating);
 		film.setSpecialFeatures(specialFeature);
-		dao.createFilm(film);
+		film = dao.createFilm(film);
+		String result = "Unable to add film";
+		if (film != null) {
+			result = "Successfully added film with ID #: " + film.getId();
+		}
+		mv.addObject("addResult", result);
+		mv.setViewName("WEB-INF/addResult.jsp");
 		
 		return mv;
 	}
