@@ -1,5 +1,6 @@
 package com.skilldistillery.film.controllers;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.skilldistillery.film.database.DatabaseAccessor;
 import com.skilldistillery.film.entities.Film;
@@ -58,10 +61,11 @@ public class FilmController {
 		return "WEB-INF/addFilm.jsp";
 	}
 
-	@RequestMapping(path = "addFilm.do", params = {"title", "description", "releaseYear", "rentalRate", "languageID", "rentalDuration", "filmLength", "replacementCost", "rating", "specialFeature"}, method = RequestMethod.POST)
-	public ModelAndView addFilm(String title, String description,  int releaseYear, int languageID, 
-			int rentalDuration, double rentalRate, int filmLength, double replacementCost, String rating,  
-			String specialFeature ) {
+	@RequestMapping(path = "addFilm.do", params = { "title", "description", "releaseYear", "rentalRate", "languageID",
+			"rentalDuration", "filmLength", "replacementCost", "rating",
+			"specialFeature" }, method = RequestMethod.POST)
+	public ModelAndView addFilm(String title, String description, int releaseYear, int languageID, int rentalDuration,
+			double rentalRate, int filmLength, double replacementCost, String rating, String specialFeature) {
 		ModelAndView mv = new ModelAndView();
 		Film film = new Film();
 		film.setTitle(title);
@@ -81,11 +85,10 @@ public class FilmController {
 		}
 		mv.addObject("addResult", result);
 		mv.setViewName("WEB-INF/addResult.jsp");
-		
+
 		return mv;
 	}
 
-	
 	@RequestMapping(path = "removeFilm.do", params = "filmId", method = RequestMethod.POST)
 	public ModelAndView removeFilm(int filmId) {
 		Film filmToDelete = dao.findFilmById(filmId);
@@ -99,7 +102,53 @@ public class FilmController {
 		mv.setViewName("WEB-INF/deleteResult.jsp");
 		return mv;
 	}
+
+	
+	@RequestMapping(path = "modifyFilm.do", params = "filmId", method = RequestMethod.GET)
+	public ModelAndView editFilmRedirect(int filmId) {
+		ModelAndView mv = new ModelAndView();
+		Film film = dao.findFilmById(filmId);
+		String language = dao.findLanguageNameByLanguageId(filmId);
+		mv.addObject("language", language);
+		mv.setViewName("WEB-INF/editFilm.jsp");
+		mv.addObject("film", film);
+		return mv;
+	}
 	
 	
+	@RequestMapping(path = "modifyFilm.do", params = { "filmId", "title", "description", "releaseYear", "rentalRate",
+			"languageID", "rentalDuration", "filmLength", "replacementCost", "rating",
+			"specialFeature" }, method = RequestMethod.POST)
+	public ModelAndView editFilm(int filmId, String title, String description, int releaseYear, int languageID,
+			int rentalDuration, double rentalRate, int filmLength, double replacementCost, String rating,
+			String specialFeature, UriComponentsBuilder uriComponentsBuilder) {
+		URI urlRedirect = uriComponentsBuilder
+	            .replacePath(null)
+	            .replaceQuery(null)
+	            .pathSegment("MVCFilmSite")
+	            .build().toUri();
+		ModelAndView mv = new ModelAndView();
+		Film film = dao.findFilmById(filmId);
+		film.setTitle(title);
+		film.setDescription(description);
+		film.setReleaseYear(releaseYear);
+		film.setLanguageId(languageID);
+		film.setRentalDuration(rentalDuration);
+		film.setLength(filmLength);
+		film.setRentalRate(rentalRate);
+		film.setReplacementCost(replacementCost);
+		film.setRating(rating);
+		film.setSpecialFeatures(specialFeature);
+		Boolean editResult = dao.editFilm(film);
+		String result = "Unable to modify film with ID #: " + filmId;
+		if (editResult == true) {
+			result = "Successfully modified film with ID #: " + filmId; 
+		}
+		mv.addObject("urlRedirect", urlRedirect);
+		mv.addObject("filmId", filmId);
+		mv.addObject("result", result);
+		mv.setViewName("WEB-INF/editResult.jsp");
+		return mv;
+	}
 
 }

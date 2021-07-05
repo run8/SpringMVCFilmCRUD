@@ -73,7 +73,7 @@
 								data-bs-toggle="modal" data-bs-target="#exampleModal">
 								Delete Film</button>
 
-							<form action="modifyFilm.do" method=POST>
+							<form action="modifyFilm.do" method=GET>
 								<input type="hidden" name="filmId" value="${film.id }">
 								<button type="submit" class="btn btn-primary modifyButton">Edit
 									Film</button>

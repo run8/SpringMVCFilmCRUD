@@ -67,24 +67,28 @@
 
 		<div class="row">
 			<div class="col-sm-8">
-				<form method=POST action="addFilm.do">
+				<form method=POST action="modifyFilm.do">
+				
+						<label for="filmId">Film ID #:</label><br>
+						<input type="text" id="filmId" name="filmId" value="${film.id }" readonly><br>
 				
 						<label for="title">Film Title:</label><br> 
-						<input type="text" id="title" name="title" value=""><br>
+						<input type="text" id="title" name="title" value="${film.title }"><br>
 
 						<label for="description">Film Description:</label><br> 
-						<textarea id="description" name="description" maxlength="200" name="filmDescription" rows="4" cols="50"></textarea><br>
+						<textarea id="description" name="description" maxlength="200" name="filmDescription" rows="4" cols="50">${film.description }</textarea><br>
 
 						<label for="rentalRate">Rental Rate:</label><br> 
-						<input type="number" id="rentalRate" name="rentalRate" value=""><br>
+						<input type="number" id="rentalRate" name="rentalRate" value="${film.rentalRate }"><br>
 
 						<label for="filmLength">Film Length:</label><br> 
-						<input type="number" id="filmLength" name="filmLength" value=""><br>
+						<input type="number" id="filmLength" name="filmLength" value="${film.length }"><br>
 
 						<label for="replacementCost">Replacement Cost:</label><br> 
-						<input type="number" id="replacementCost" name="replacementCost" value=""><br>
+						<input type="number" id="replacementCost" name="replacementCost" value="${film.replacementCost }"><br>
 
 						Rental Duration: <select name="rentalDuration"  >
+						<option value="${film.rentalDuration}" selected hidden="true">${film.rentalDuration}</option>
 						<option value="3">3</option>
 						<option value="4">4</option>
 						<option value="5">5</option>
@@ -93,6 +97,7 @@
 					</select><br> 
 
 					Rating: <select name="rating"  >
+						<option value="${film.rating}" selected hidden="true">${film.rating}</option>
 						<option value="G">G</option>
 						<option value="PG">PG</option>
 						<option value="PG13">PG-13</option>
@@ -100,6 +105,7 @@
 					</select><br> 
 					
 					Release Year: <select name="releaseYear">
+					    <option value="${film.releaseYear}" selected hidden="true">${film.releaseYear}</option>
 						<option value="2021">2021</option>
 						<option value="2020">2020</option>
 						<option value="2019">2019</option>
@@ -164,6 +170,7 @@
 					</select><br> 
 					
 					Special Feature: <select name="specialFeature">
+					    <option value="${film.specialFeatures}" selected hidden="true">${film.specialFeatures}</option>
 						<option value="Trailers">Trailers</option>
 						<option value="Commentaries">Commentaries</option>
 						<option value="DeletedScenes">DeletedScenes</option>
@@ -172,6 +179,7 @@
 					</select><br> 
 					
 					Language: <select name="languageID">
+						<option value="${film.languageId}" selected hidden="true">${language}</option>
 						<option value="1">English</option>
 						<option value="2">Italian</option>
 						<option value="3">Japanese</option>
