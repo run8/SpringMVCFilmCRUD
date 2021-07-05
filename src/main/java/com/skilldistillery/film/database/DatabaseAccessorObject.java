@@ -17,7 +17,6 @@ import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 import com.skilldistillery.film.entities.Inventory;
 
-
 @Repository
 public class DatabaseAccessorObject implements DatabaseAccessor {
 
@@ -172,7 +171,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 		return films;
 	}
-	
+
 	@Override
 	public List<String> findCategoriesByFilmId(int filmId) {
 		List<String> categories = new ArrayList<>();
@@ -182,18 +181,17 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			stmt.setInt(1, filmId);
 			ResultSet rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				categories.add(rs.getString("name"));
 			}
 			rs.close();
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return categories;
 	}
-	
+
 	@Override
 	public Inventory findInventoryByFilmId(int filmId) {
 		String query = "SELECT DISTINCT inventory_item.media_condition, COUNT(IFNULL(inventory_item.media_condition,1)) FROM inventory_item JOIN film ON inventory_item.film_id = film.id WHERE film.id = ? GROUP BY inventory_item.media_condition";
@@ -203,13 +201,12 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			stmt.setInt(1, filmId);
 			ResultSet rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				inventory.put(rs.getString("media_condition"), rs.getInt(2));
 			}
 			rs.close();
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		Inventory inventoryForFilm = new Inventory();
@@ -217,78 +214,120 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		inventoryForFilm.setFilmId(filmId);
 		return inventoryForFilm;
 	}
-   
+
 	@Override
 	public Film createFilm(Film filmToAdd) {
-		  Connection conn = null;
-		  try {
-		    conn = DriverManager.getConnection(URL, user, pass);
-		    conn.setAutoCommit(false); // START TRANSACTION
-		    String sql = "INSERT INTO film (title, description, release_year, "
-		    		+ "language_id, rental_duration, rental_rate, length, "
-		    		+ "replacement_cost, rating, special_features) "
-		            + " VALUES (?,?,?,?,?,?,?,?,?,?)";
-		    PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		    stmt.setString(1, filmToAdd.getTitle());
-		    stmt.setString(2, filmToAdd.getDescription());
-		    stmt.setInt(3, filmToAdd.getReleaseYear());
-		    stmt.setInt(4, filmToAdd.getLanguageId());
-		    stmt.setInt(5, filmToAdd.getRentalDuration());
-		    stmt.setDouble(6, filmToAdd.getRentalRate());
-		    stmt.setInt(7, filmToAdd.getLength());
-		    stmt.setDouble(8, filmToAdd.getReplacementCost());
-		    stmt.setString(9, filmToAdd.getRating());
-		    stmt.setString(10,filmToAdd.getSpecialFeatures());
-		    
-		    int updateCount = stmt.executeUpdate();
-		    if (updateCount == 1) {
-		      ResultSet keys = stmt.getGeneratedKeys();
-		      if (keys.next()) {
-		        int newFilmId = keys.getInt(1);
-		        filmToAdd.setId(newFilmId);
-		      }
-		    } else {
-		      filmToAdd = null;
-		    }
-		    conn.commit(); // COMMIT TRANSACTION
-		    System.out.println("Added the film with film id: " + filmToAdd.getId());
-		    
-		  } catch (SQLException sqle) {
-		    sqle.printStackTrace();
-		    if (conn != null) {
-		      try { conn.rollback(); }
-		      catch (SQLException sqle2) {
-		        System.err.println("Error trying to rollback");
-		      }
-		    }
-		    throw new RuntimeException("Error inserting film " + filmToAdd);
-		  }
-		  return filmToAdd;
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(URL, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
+			String sql = "INSERT INTO film (title, description, release_year, "
+					+ "language_id, rental_duration, rental_rate, length, "
+					+ "replacement_cost, rating, special_features) " + " VALUES (?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, filmToAdd.getTitle());
+			stmt.setString(2, filmToAdd.getDescription());
+			stmt.setInt(3, filmToAdd.getReleaseYear());
+			stmt.setInt(4, filmToAdd.getLanguageId());
+			stmt.setInt(5, filmToAdd.getRentalDuration());
+			stmt.setDouble(6, filmToAdd.getRentalRate());
+			stmt.setInt(7, filmToAdd.getLength());
+			stmt.setDouble(8, filmToAdd.getReplacementCost());
+			stmt.setString(9, filmToAdd.getRating());
+			stmt.setString(10, filmToAdd.getSpecialFeatures());
+
+			int updateCount = stmt.executeUpdate();
+			if (updateCount == 1) {
+				ResultSet keys = stmt.getGeneratedKeys();
+				if (keys.next()) {
+					int newFilmId = keys.getInt(1);
+					filmToAdd.setId(newFilmId);
+				}
+			} else {
+				filmToAdd = null;
+			}
+			conn.commit(); // COMMIT TRANSACTION
+			System.out.println("Added the film with film id: " + filmToAdd.getId());
+
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException sqle2) {
+					System.err.println("Error trying to rollback");
+				}
+			}
+			throw new RuntimeException("Error inserting film " + filmToAdd);
+		}
+		return filmToAdd;
 	}
-	
+
 	@Override
 	public boolean deleteFilm(Film film) {
 		Connection conn = null;
-		  try {
+		try {
+			conn = DriverManager.getConnection(URL, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
+			String sql = "DELETE FROM film WHERE id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, film.getId());
+			int updateCount = stmt.executeUpdate();
+			if (updateCount == 1) {
+				conn.commit(); // COMMIT TRANSACTION
+				System.out.println("Successfully deleted film with id: " + film.getId());
+				System.out.println();
+			} else {
+				throw new SQLException("Could not find film to delete");
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException sqle2) {
+					System.err.println("Error trying to rollback");
+				}
+			}
+			return false;
+		}
+		return true;
+
+	}
+
+	@Override
+	public boolean editFilm(Film filmToEdit) {
+		Connection conn = null;
+		try {
 		    conn = DriverManager.getConnection(URL, user, pass);
 		    conn.setAutoCommit(false); // START TRANSACTION
-		    String sql = "DELETE FROM film WHERE id = ?";
-		    PreparedStatement stmt = conn.prepareStatement(sql);
-		    stmt.setInt(1, film.getId());
-		    int updateCount = stmt.executeUpdate();
+		    
+		    String sql = "UPDATE film SET title=?, description=?, release_year=?, language_id=?, "
+		    		+ "rental_duration=?, rental_rate=?, length=?, replacement_cost=?,"
+		    		+ " rating=?, special_features=? WHERE id=?;";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, filmToEdit.getTitle());
+			stmt.setString(2, filmToEdit.getDescription());
+			stmt.setInt(3, filmToEdit.getReleaseYear());
+			stmt.setInt(4, filmToEdit.getLanguageId());
+			stmt.setInt(5, filmToEdit.getRentalDuration());
+			stmt.setDouble(6, filmToEdit.getRentalRate());
+			stmt.setInt(7, filmToEdit.getLength());
+			stmt.setDouble(8, filmToEdit.getReplacementCost());
+			stmt.setString(9, filmToEdit.getRating());
+			stmt.setString(10, filmToEdit.getSpecialFeatures());
+			stmt.setInt(11, filmToEdit.getId()); 
+		   
+			int updateCount = stmt.executeUpdate();  // Returns 1 if successful
+			// I don't believe we have to make this automic b/c ther's no sub-entities
+		    
 		    if (updateCount == 1) {
-		    	conn.commit();             // COMMIT TRANSACTION
-		    	System.out.println("Successfully deleted film with id: " + film.getId());
-		    	System.out.println();
+		      conn.commit();           // COMMIT TRANSACTION
 		    }
-		    else {
-		    	throw new SQLException("Could not find film to delete");
-		    }
-	    }
-		  catch (SQLException sqle) {
+		  } catch (SQLException sqle) {
 		    sqle.printStackTrace();
 		    if (conn != null) {
-		      try { conn.rollback(); }
+		      try { conn.rollback(); } // ROLLBACK TRANSACTION ON ERROR
 		      catch (SQLException sqle2) {
 		        System.err.println("Error trying to rollback");
 		      }
@@ -296,7 +335,5 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		    return false;
 		  }
 		  return true;
-		
 	}
-
 }
