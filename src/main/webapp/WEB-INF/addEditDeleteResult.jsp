@@ -8,6 +8,7 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Refresh" content="3; url=${urlRedirect}${urlPathSegment}">
 
 <!-- Bootstrap CSS -->
 <link
@@ -35,7 +36,7 @@
 					<form method=GET action="searchByIdInput.do">
 						<div class="input-group input-group-sm mb-3">
 							<div class="input-group-text">Search by Film ID #</div>
-							<input type="text" class="form-control" id="filmId" name="filmId"
+							<input type="number" class="form-control" id="filmId" name="filmId"
 								required>
 							<button type="submit" class="btn btn-primary">Search</button>
 						</div>
@@ -63,13 +64,14 @@
 		</div>
 
 		<br>
-		<c:if test="${fn:startsWith(addResult, 'Unable')}">
-		<div class="failedMessage"><h5>${addResult}</h5></div>
+		<c:if test="${fn:startsWith(result, 'Unable')}">
+		<div class="failedMessage"><h5>${result}</h5></div>
 		</c:if>
-		<c:if test="${fn:startsWith(addResult, 'Successfully') }">
-		<div class="successMessage"><h5>${addResult}</h5></div>
+		<c:if test="${fn:startsWith(result, 'Successfully') }">
+		<div class="successMessage"><h5>${result}</h5></div>
 		</c:if>
-
+		<br>
+		<h6>Redirecting in 3 seconds...</h6>
 
 
 

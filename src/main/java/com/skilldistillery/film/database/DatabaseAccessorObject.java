@@ -191,6 +191,52 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 		return categories;
 	}
+	
+	@Override
+	public int findCategoryIdByCategoryName(String category) {
+		String query = "SELECT id FROM category WHERE name = ?";
+		int result = 0;
+		try (Connection conn = DriverManager.getConnection(URL, user, pass);
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+
+			stmt.setString(1, category);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				result = rs.getInt("id");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@Override
+	public void addCategoryToFilmCategorySQL(int filmId, int categoryId) {
+		String query = "INSERT INTO film_category (film_id, category_id) VALUES (?,?)";
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, filmId);
+			stmt.setInt(2, categoryId);
+			int updateCount = stmt.executeUpdate();
+			if (updateCount == 1) {
+				conn.commit();
+			}
+			else {
+				conn.rollback();
+			}
+			
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		List<String> categories = new ArrayList<>();
+		categories.addAll(findCategoriesByFilmId(filmId));
+		return;
+	}
 
 	@Override
 	public Inventory findInventoryByFilmId(int filmId) {
@@ -216,7 +262,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	}
 
 	@Override
-	public Film createFilm(Film filmToAdd) {
+	public Film createFilm(Film filmToAdd, int categoryId) {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(URL, user, pass);
@@ -247,7 +293,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				filmToAdd = null;
 			}
 			conn.commit(); // COMMIT TRANSACTION
-			System.out.println("Added the film with film id: " + filmToAdd.getId());
+			addCategoryToFilmCategorySQL(filmToAdd.getId(), categoryId);
 
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
@@ -269,14 +315,17 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		try {
 			conn = DriverManager.getConnection(URL, user, pass);
 			conn.setAutoCommit(false); // START TRANSACTION
-			String sql = "DELETE FROM film WHERE id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, film.getId());
-			int updateCount = stmt.executeUpdate();
+			String sql1 = "DELETE FROM film_category WHERE film_id = ?";
+			PreparedStatement stmt1 = conn.prepareStatement(sql1);
+			stmt1.setInt(1, film.getId());
+			int updateCount = stmt1.executeUpdate();
+			String sql2 = "DELETE FROM film WHERE id = ?";
+			PreparedStatement stmt2 = conn.prepareStatement(sql2);
+			stmt2.setInt(1, film.getId());
+			updateCount = stmt2.executeUpdate();
+			
 			if (updateCount == 1) {
 				conn.commit(); // COMMIT TRANSACTION
-				System.out.println("Successfully deleted film with id: " + film.getId());
-				System.out.println();
 			} else {
 				throw new SQLException("Could not find film to delete");
 			}

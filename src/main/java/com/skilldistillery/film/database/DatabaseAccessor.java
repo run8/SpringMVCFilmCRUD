@@ -21,9 +21,13 @@ public interface DatabaseAccessor {
 	
 	public Inventory findInventoryByFilmId(int filmId);
 	
-	public Film createFilm(Film film);
+	public Film createFilm(Film film, int categoryId);
 	
 	public boolean deleteFilm(Film film);
 	
 	public boolean editFilm(Film film);
+	
+	public void addCategoryToFilmCategorySQL(int filmId, int categoryId);
+	
+	public int findCategoryIdByCategoryName(String category);
 }

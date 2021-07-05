@@ -34,7 +34,7 @@
 					<form method=GET action="searchByIdInput.do">
 						<div class="input-group input-group-sm mb-3">
 							<div class="input-group-text">Search by Film ID #</div>
-							<input type="text" class="form-control" id="filmId" name="filmId"
+							<input type="number" class="form-control" id="filmId" name="filmId"
 								required>
 							<button type="submit" class="btn btn-primary">Search</button>
 						</div>

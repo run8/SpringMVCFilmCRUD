@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.skilldistillery.film.database.DatabaseAccessor;
@@ -63,9 +62,9 @@ public class FilmController {
 
 	@RequestMapping(path = "addFilm.do", params = { "title", "description", "releaseYear", "rentalRate", "languageID",
 			"rentalDuration", "filmLength", "replacementCost", "rating",
-			"specialFeature" }, method = RequestMethod.POST)
+			"specialFeature", "categoryId" }, method = RequestMethod.POST)
 	public ModelAndView addFilm(String title, String description, int releaseYear, int languageID, int rentalDuration,
-			double rentalRate, int filmLength, double replacementCost, String rating, String specialFeature) {
+			double rentalRate, int filmLength, double replacementCost, String rating, String specialFeature, int categoryId, UriComponentsBuilder uriComponentsBuilder) {
 		ModelAndView mv = new ModelAndView();
 		Film film = new Film();
 		film.setTitle(title);
@@ -78,28 +77,46 @@ public class FilmController {
 		film.setReplacementCost(replacementCost);
 		film.setRating(rating);
 		film.setSpecialFeatures(specialFeature);
-		film = dao.createFilm(film);
+		film = dao.createFilm(film, categoryId);
+		
 		String result = "Unable to add film";
 		if (film != null) {
 			result = "Successfully added film with ID #: " + film.getId();
 		}
-		mv.addObject("addResult", result);
-		mv.setViewName("WEB-INF/addResult.jsp");
-
+		mv.addObject("result", result);
+		mv.setViewName("WEB-INF/addEditDeleteResult.jsp");
+		URI urlRedirect = uriComponentsBuilder
+	            .replacePath(null)
+	            .replaceQuery(null)
+	            .pathSegment("MVCFilmSite")
+	            .build().toUri();
+		mv.addObject("urlRedirect", urlRedirect);
+		String urlPathSegment = "/showDetail.do?filmId=" + film.getId();
+		mv.addObject("urlPathSegment", urlPathSegment);
 		return mv;
 	}
 
 	@RequestMapping(path = "removeFilm.do", params = "filmId", method = RequestMethod.POST)
-	public ModelAndView removeFilm(int filmId) {
+	public ModelAndView removeFilm(int filmId, UriComponentsBuilder uriComponentsBuilder) {
 		Film filmToDelete = dao.findFilmById(filmId);
 		Boolean deleteResult = dao.deleteFilm(filmToDelete);
 		String result = "Unable to delete film with ID #: " + filmId;
+		String urlPathSegment = "/showDetail.do?filmId=" + filmId;
 		if (deleteResult == true) {
 			result = "Successfully deleted film with ID #: " + filmId;
+			urlPathSegment = "";
 		}
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("deleteResult", result);
-		mv.setViewName("WEB-INF/deleteResult.jsp");
+		mv.addObject("result", result);
+		mv.addObject("filmId", filmId);
+		mv.setViewName("WEB-INF/addEditDeleteResult.jsp");
+		URI urlRedirect = uriComponentsBuilder
+	            .replacePath(null)
+	            .replaceQuery(null)
+	            .pathSegment("MVCFilmSite")
+	            .build().toUri();
+		mv.addObject("urlRedirect", urlRedirect);
+		mv.addObject("urlPathSegment", urlPathSegment);
 		return mv;
 	}
 
@@ -108,10 +125,14 @@ public class FilmController {
 	public ModelAndView editFilmRedirect(int filmId) {
 		ModelAndView mv = new ModelAndView();
 		Film film = dao.findFilmById(filmId);
-		String language = dao.findLanguageNameByLanguageId(filmId);
-		mv.addObject("language", language);
+		String language = dao.findLanguageNameByLanguageId(film.getLanguageId());
+		String categoryName = dao.findCategoriesByFilmId(filmId).get(0);
+		int categoryId = dao.findCategoryIdByCategoryName(categoryName);
 		mv.setViewName("WEB-INF/editFilm.jsp");
 		mv.addObject("film", film);
+		mv.addObject("language", language);
+		mv.addObject("categoryName", categoryName);
+		mv.addObject("categoryId", categoryId);
 		return mv;
 	}
 	
@@ -122,11 +143,6 @@ public class FilmController {
 	public ModelAndView editFilm(int filmId, String title, String description, int releaseYear, int languageID,
 			int rentalDuration, double rentalRate, int filmLength, double replacementCost, String rating,
 			String specialFeature, UriComponentsBuilder uriComponentsBuilder) {
-		URI urlRedirect = uriComponentsBuilder
-	            .replacePath(null)
-	            .replaceQuery(null)
-	            .pathSegment("MVCFilmSite")
-	            .build().toUri();
 		ModelAndView mv = new ModelAndView();
 		Film film = dao.findFilmById(filmId);
 		film.setTitle(title);
@@ -144,10 +160,17 @@ public class FilmController {
 		if (editResult == true) {
 			result = "Successfully modified film with ID #: " + filmId; 
 		}
-		mv.addObject("urlRedirect", urlRedirect);
 		mv.addObject("filmId", filmId);
 		mv.addObject("result", result);
-		mv.setViewName("WEB-INF/editResult.jsp");
+		mv.setViewName("WEB-INF/addEditDeleteResult.jsp");
+		URI urlRedirect = uriComponentsBuilder
+				.replacePath(null)
+				.replaceQuery(null)
+				.pathSegment("MVCFilmSite")
+				.build().toUri();
+		mv.addObject("urlRedirect", urlRedirect);
+		String urlPathSegment = "/showDetail.do?filmId=" + filmId;
+		mv.addObject("urlPathSegment", urlPathSegment);
 		return mv;
 	}
 
