@@ -36,5 +36,9 @@ Upon landing on the site. The user is presented with options to search the datab
 
 * Following a search, if results are found, the user has the option of clicking on the film ID # of a result. Clicking on the ID # will bring the user to a page that displays all of the information pertaining to the film. From this detailed view, the user is also provided an option to Delete a film or update a film.
 
+* Adding a film - If a user chooses to add a film, they are displayed a form that allows them to enter all of the information pertaining to a film. This includes title, description, release year, rental rate, rental duration, replacement cost, film length, rating, language, and category. After filling out the fields and selecting submit, the user will be informed that the submit was successful and they will be sent to the detailed view of the newly added film.
+
 * Deleting a film - When a user selects delete film, a modal is displayed asking the user to confirm that they would like to delete the film. The user is only allowed to delete films that they have added to the database. If the user attempts to delete a film that they did not add, they will be displayed a message saying the delete failed and they will be returned to the detailed view of the film. If the deletion occurs on a film the user added, the user will be informed that the deletion was successful and they will be redirected to the main landing page view.
+
+* Editing a film - When the user selects edit film, they are displayed the same form as if they were to add a film. However, the information is pre-filled with the exiting details of the film. The user may choose to keep any of the original fields or they may change any of the fields. After hitting submit, the user is informed that the update was successful and they are redirected to the films detailed view which now shows the updated information.
 
