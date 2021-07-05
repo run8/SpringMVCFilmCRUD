@@ -76,13 +76,13 @@
 						<textarea id="description" name="description" maxlength="200" name="filmDescription" rows="4" cols="50"></textarea><br>
 
 						<label for="rentalRate">Rental Rate ($):</label><br> 
-						<input type="text" id="rentalRate" name="rentalRate" required><br>
+						<input type="text" id="rentalRate" name="rentalRate" pattern="[0-9.]*" required><br>
 
 						<label for="filmLength">Film Length (minutes):</label><br> 
-						<input type="text" id="filmLength" name="filmLength" required><br>
+						<input type="text" id="filmLength" name="filmLength" pattern="[0-9]*" required><br>
 
 						<label for="replacementCost">Replacement Cost ($):</label><br> 
-						<input type="text" id="replacementCost" name="replacementCost" required><br>
+						<input type="text" id="replacementCost" name="replacementCost" pattern="[0-9.]*" required><br>
 
 						Rental Duration (days): <select name="rentalDuration"  >
 						<option value="3" selected>3</option>
