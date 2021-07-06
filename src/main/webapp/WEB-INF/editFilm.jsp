@@ -63,7 +63,7 @@
 
 
 
-		<h1>Add Film</h1>
+		<h1>Edit Film</h1>
 
 		<div class="row">
 			<div class="col-sm-8">
