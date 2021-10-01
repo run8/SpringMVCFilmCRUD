@@ -1,23 +1,19 @@
 ## Spring MVC Film C.R.U.D.
 
 ### Overview
-This full stack web application allows a user to to interact with data in a film database. A user can choose from a menu of options to view specific film information based on a keyword search or film ID search. A user can also add new films to the data base and edit or delete information in the database. The user views information presented dynamically based on user input.
+This application allows the user to lookup films by their ID# or by searching a keyword. The results are queried from a mySQL database and reported back to the user. The basic information returned includes the film title, release year, rating, description, language, and the actors that are in the film. If a user searches by keyword, all of the films with a matching keyword will be returned. If the user looks up a film by ID, in addition to the basic information returned, they are provided the option of viewing more details about the film to include the language ID#, rental duration, rental rate, length, replacement cost, special features, categories, and a count of how many copies are in inventory along with their condition.
 
-### Technologies Used
-* Back end
-- Framework: Spring
-- IDE: Eclipse
-- Solution Stack: MAMP
-- Web Server: Apache Tomcat v8.5
-- Build Automation & Dependency Manager: Gradle
-- Database Service: MySQL
-* Front End
-- Bootstrap
-- CSS
-- XML
-* Design Patterns
-- MVC (Model View Controller)
-- DAO (Database Access Object)
+Technologies Used
+Java for the application code
+mySQL for the database
+Maven for dependency management
+JDBC API for interaction with the database
+JUnit 5 (Jupiter)
+Object Oriented Programming
+Encapsulation
+toString, hashCode, equals
+Interface
+Collections and Lists
 
 ### Lessons Learned
 - DAO: How to isolate entities that use data, access data, and persist data.
